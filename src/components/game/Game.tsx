@@ -7,6 +7,7 @@ import WaitingForCards from "./phases/WaitingForCards";
 import Judging from "./phases/Judging";
 import Roundup from "./phases/Roundup";
 import WaitingForJudge from "./phases/WaitingForJudge";
+import GameEnd from "./phases/GameEnd";
 
 const PhaseComponents: Record<GamePhase, React.ComponentType> = {
   [GamePhase.WaitingForPlayers]: WaitingForPlayers,
@@ -15,6 +16,7 @@ const PhaseComponents: Record<GamePhase, React.ComponentType> = {
   [GamePhase.WaitingForJudge]: WaitingForJudge,
   [GamePhase.Judging]: Judging,
   [GamePhase.Roundup]: Roundup,
+  [GamePhase.GameEnd]: GameEnd,
 };
 
 function Game() {

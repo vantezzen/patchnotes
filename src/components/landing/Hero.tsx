@@ -31,9 +31,8 @@ function Hero() {
             style={{
               background: "linear-gradient(132deg, #c86b8a 0%, #943c5f 100%)",
               backgroundClip: "text",
-              // @ts-ignore
+              // @ts-expect-error Background clip
               "-webkit-background-clip": "text",
-              // @ts-ignore
               "-webkit-text-fill-color": "transparent",
             }}
           >
