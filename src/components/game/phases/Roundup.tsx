@@ -6,6 +6,7 @@ import BottomBar from "../BottomBar";
 import PageContainer from "../PageContainer";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
+import { GameEventType } from "@/lib/game/gameEvent";
 
 function Roundup() {
   const { state, trigger } = useGame();
@@ -23,9 +24,26 @@ function Roundup() {
       <h2 className="text-xl font-bold mb-3">{roundupMessage}</h2>
 
       {state.czar === state.ownId ? (
-        <Button onClick={() => startNewRound(state, trigger)}>
-          Start next round
-        </Button>
+        <div className="grid gap-4 w-full">
+          <Button
+            onClick={() => startNewRound(state, trigger)}
+            className="w-full"
+            size="lg"
+          >
+            Start next round
+          </Button>
+          <Button
+            onClick={() =>
+              trigger({
+                type: GameEventType.GameEnd,
+                payload: null,
+              })
+            }
+            variant="secondary"
+          >
+            End game
+          </Button>
+        </div>
       ) : (
         <p className="text-zinc-500 font-medium mb-3">
           Waiting for the czar to start the next round...

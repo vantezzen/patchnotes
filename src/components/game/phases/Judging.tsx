@@ -6,7 +6,7 @@ import PageContainer from "../PageContainer";
 import CardJudgeTable from "../CardJudgeTable";
 
 function Judging() {
-  const { trigger } = useGame();
+  const { trigger, state } = useGame();
 
   return (
     <PageContainer>
@@ -17,9 +17,17 @@ function Judging() {
 
       <CardJudgeTable
         onWinnerSelect={(playerId) => {
+          const updatedPoints = {
+            ...state.playerPoints,
+            [playerId]: (state.playerPoints[playerId] || 0) + 1,
+          };
+
           trigger({
             type: GameEventType.RoundEnd,
-            payload: playerId,
+            payload: {
+              winnerId: playerId,
+              playerPoints: updatedPoints,
+            },
           });
         }}
       />

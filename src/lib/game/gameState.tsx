@@ -13,20 +13,25 @@ export enum GamePhase {
   Judging,
 
   Roundup,
+  GameEnd,
 }
 
 export type GameState = {
+  // General state
   phase: GamePhase;
-  players: string[]; // Socket IDs
-  czar: string | null; // Socket ID
-  previousCzars: string[]; // Socket IDs
   gameId: string;
-  ownId?: string;
+  ownId?: string; // Socket ID
+
+  // Round info
+  czar: string | null; // Socket ID
   winnerId?: string;
   prompt?: string;
-  ownPoints: number;
-
   playedCards: Record<string, string[]>; // Socket ID -> cards
+
+  // Player infos
+  players: string[]; // Socket IDs
+  previousCzars: string[]; // Socket IDs
+  playerPoints: Record<string, number>; // Socket ID -> points
   ownCards: string[];
 
   updateState: (newState: Partial<GameState>) => void;
@@ -53,7 +58,7 @@ function createEmptyGameState(gameId: string, ownId?: string): GameState {
     playedCards: {},
     ownCards: getWordList(),
     ownId,
-    ownPoints: 0,
+    playerPoints: {},
 
     updateState: () => {
       // Placeholder - real implementation is in GameStateProvider

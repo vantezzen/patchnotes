@@ -8,6 +8,7 @@ import PhaseEndTimer from "../PhaseEndTimer";
 import BottomBar from "../BottomBar";
 import PageContainer from "../PageContainer";
 import { toast } from "sonner";
+import { getWordList } from "@/lib/game/utils";
 
 function SelectingCards() {
   const { state, trigger } = useGame();
@@ -77,8 +78,17 @@ function SelectingCards() {
           setIsConfirmed(true);
 
           toast("Your cards have been submitted! Waiting for other players...");
+
+          let ownCards = remainingCards;
+          if (ownCards.length < 40) {
+            ownCards = getWordList();
+            toast("Your cards are running low - you have received new cards!");
+          }
+          state.updateState({
+            ownCards,
+          });
         }}
-        disabled={isConfirmed}
+        disabled={isConfirmed || selectedCards.length === 0}
         className="w-full mt-6"
       >
         Confirm

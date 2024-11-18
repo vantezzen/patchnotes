@@ -1,4 +1,3 @@
-- Save points of other players
-- What happens when all cards are empty/run low?
+
 - When is a game over? Is there an end?
 - Handle judge leaving

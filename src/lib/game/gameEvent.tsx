@@ -11,6 +11,7 @@ export enum GameEventType {
   StartJudging = "startJudging",
   PlayerCards = "playerCards",
   RoundEnd = "roundEnd",
+  GameEnd = "gameEnd",
 }
 
 export type GameEvent = {
@@ -31,6 +32,13 @@ export function handleEvent(event: GameEvent, state: GameState) {
       state.updateState({
         players: state.players.filter((p) => p !== event.payload),
       });
+
+      if (state.czar === event.payload) {
+        debug("Czar left. TODO: Handle this");
+        // Problem is we don't have access to the "trigger" function here
+        // otherwise we could just call "startNewRound"
+      }
+
       break;
     case GameEventType.SelectCzar:
       debug("Selecting czar", event.payload);
@@ -76,11 +84,22 @@ export function handleEvent(event: GameEvent, state: GameState) {
     case GameEventType.RoundEnd:
       debug("Round end", event.payload);
 
-      const isWinner = state.ownId === event.payload;
+      const { winnerId, playerPoints } = event.payload as {
+        winnerId: string;
+        playerPoints: Record<string, number>;
+      };
+
       state.updateState({
-        winnerId: event.payload as string,
         phase: GamePhase.Roundup,
-        ownPoints: state.ownPoints + (isWinner ? 1 : 0),
+        winnerId,
+        playerPoints,
+      });
+      break;
+
+    case GameEventType.GameEnd:
+      debug("Game end", event.payload);
+      state.updateState({
+        phase: GamePhase.GameEnd,
       });
       break;
   }

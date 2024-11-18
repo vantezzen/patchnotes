@@ -25,7 +25,7 @@ function CardJudgeTable({
             key={playerId}
             className="flex justify-between border-b border-zinc-200 py-6"
           >
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
               {state.playedCards[playerId].map((card, i) => (
                 <WordSnippet key={card + i}>{card}</WordSnippet>
               ))}

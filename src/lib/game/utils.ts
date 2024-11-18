@@ -18,6 +18,10 @@ const coreWords = [
   "on",
   "by",
   "with",
+  "oops",
+  "sorry",
+  "oh",
+  "please",
 ];
 
 export function createRandomLobbyCode() {
@@ -43,7 +47,7 @@ export function chooseNextCzar(state: GameState) {
   return players[0];
 }
 
-export function getWordList(entries = 50): string[] {
+export function getWordList(entries = 60): string[] {
   const coreWordAmount = entries * 0.3; // 30% of words are core words which seems to make forming sentences easier
   const wordListWordAmount = entries - coreWordAmount;
 
