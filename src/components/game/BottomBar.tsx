@@ -1,0 +1,25 @@
+import useGame from "@/lib/game/useGame";
+import React from "react";
+
+function BottomBar({ children = <div /> }: { children?: React.ReactNode }) {
+  const { state } = useGame();
+
+  return (
+    <div className="fixed bottom-0 w-full left-0 bg-zinc-900 text-white p-3 rounded-t-lg grid grid-cols-3 gap-3 justify-center items-center">
+      <p className="font-medium text-left">
+        <span className="font-bold">{state.ownPoints}</span>{" "}
+        <span className="text-zinc-400">
+          {state.ownPoints === 1 ? "point" : "points"}
+        </span>
+      </p>
+      <p className="font-medium text-center">
+        <span className="font-bold">{state.players.length + 1}</span>{" "}
+        <span className="text-zinc-400">players</span>
+      </p>
+
+      {children}
+    </div>
+  );
+}
+
+export default BottomBar;
