@@ -11,7 +11,9 @@ export default function useGame() {
     socket,
     trigger: (event: GameEvent) => {
       sendEvent(socket, event, state.gameId);
-      handleEvent(event, state);
+      handleEvent(event, state, (event) => {
+        sendEvent(socket, event, state.gameId);
+      });
     },
   };
 }

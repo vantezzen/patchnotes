@@ -1,5 +1,5 @@
 import { getRandomArrayElement } from "../utils";
-import { GameState } from "./gameState";
+import { GamePhase, GameState } from "./gameState";
 import promptsRaw from "./prompts.json";
 import wordListRaw from "./words.json"; // https://github.com/first20hours/google-10000-english/blob/master/google-10000-english-usa-no-swears.txt
 const wordList = wordListRaw as unknown as string[];
@@ -63,4 +63,26 @@ export function getWordList(entries = 60): string[] {
 
 export function getNewPrompt() {
   return getRandomArrayElement(prompts);
+}
+
+export function getUserPlace(
+  playerPoints: Record<string, number>,
+  ownId: string
+) {
+  return (
+    Number(
+      Object.entries(playerPoints)
+        .sort((a, b) => b[1] - a[1])
+        .findIndex(([id]) => id === ownId)
+    ) + 1
+  );
+}
+
+export function isInAGame(phase: GamePhase) {
+  return [
+    GamePhase.Judging,
+    GamePhase.SelectingCards,
+    GamePhase.WaitingForCards,
+    GamePhase.WaitingForJudge,
+  ].includes(phase);
 }

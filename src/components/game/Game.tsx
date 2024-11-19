@@ -8,6 +8,8 @@ import Judging from "./phases/Judging";
 import Roundup from "./phases/Roundup";
 import WaitingForJudge from "./phases/WaitingForJudge";
 import GameEnd from "./phases/GameEnd";
+import NoCzar from "./phases/NoCzar";
+import NoPlayers from "./phases/NoPlayers";
 
 const PhaseComponents: Record<GamePhase, React.ComponentType> = {
   [GamePhase.WaitingForPlayers]: WaitingForPlayers,
@@ -17,10 +19,18 @@ const PhaseComponents: Record<GamePhase, React.ComponentType> = {
   [GamePhase.Judging]: Judging,
   [GamePhase.Roundup]: Roundup,
   [GamePhase.GameEnd]: GameEnd,
+  [GamePhase.NoCzar]: NoCzar,
 };
 
 function Game() {
   const { state } = useGame();
+
+  if (
+    state.players.length === 0 &&
+    state.phase !== GamePhase.WaitingForPlayers
+  ) {
+    return <NoPlayers />;
+  }
 
   const PhaseComponent = PhaseComponents[state.phase];
   return <PhaseComponent />;

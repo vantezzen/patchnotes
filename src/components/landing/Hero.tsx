@@ -83,7 +83,7 @@ function Hero() {
         <Image
           src={gameImage}
           alt="SparkTunes screen"
-          className="absolute w-1/2 top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-8 border-zinc-100 rounded-xl"
+          className="absolute w-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-8 border-zinc-100 rounded-xl"
         />
       </div>
     </div>

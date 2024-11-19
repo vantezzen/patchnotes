@@ -74,6 +74,9 @@ export default {
           "950": "#3b1627",
         },
       },
+      fontFamily: {
+        fraunces: "Fraunces, serif",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

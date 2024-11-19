@@ -1,3 +1,1 @@
-
-- When is a game over? Is there an end?
-- Handle judge leaving
+- 

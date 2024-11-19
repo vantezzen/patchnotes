@@ -20,7 +20,11 @@ function WaitingForPlayers() {
       />
 
       <Serif>
-        <h1 className="text-xl font-bold">Waiting for players...</h1>
+        <h1 className="text-xl font-bold">
+          {state.hasExistingRound
+            ? "Waiting for next round..."
+            : "Waiting for players..."}
+        </h1>
       </Serif>
 
       <p className="text-gray-700 font-medium mt-4 text-sm">

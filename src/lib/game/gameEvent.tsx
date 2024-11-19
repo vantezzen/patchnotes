@@ -1,17 +1,22 @@
 import { Socket } from "socket.io-client";
 import { GamePhase, GameState } from "./gameState";
 import debugging from "debug";
+import { isInAGame } from "./utils";
 const debug = debugging("gameEvent");
 
 export enum GameEventType {
   PlayerJoin = "playerJoin",
   PlayerLeave = "playerLeave",
+
   SelectCzar = "selectCzar",
+
   RoundStart = "roundStart",
-  StartJudging = "startJudging",
   PlayerCards = "playerCards",
+  StartJudging = "startJudging",
+
   RoundEnd = "roundEnd",
   GameEnd = "gameEnd",
+  InAGame = "inAGame",
 }
 
 export type GameEvent = {
@@ -19,24 +24,39 @@ export type GameEvent = {
   payload: unknown;
 };
 
-export function handleEvent(event: GameEvent, state: GameState) {
+export function handleEvent(
+  event: GameEvent,
+  state: GameState,
+  sendEvent: (event: GameEvent) => void
+) {
   switch (event.type) {
     case GameEventType.PlayerJoin:
       debug("Player joined", event.payload);
       state.updateState({
         players: [...state.players, event.payload as string],
       });
+
+      if (isInAGame(state.phase)) {
+        // New player joined during a game - inform them about the round info
+        sendEvent({
+          type: GameEventType.InAGame,
+          payload: {
+            czar: state.czar,
+            previousCzars: state.previousCzars,
+            playerPoints: state.playerPoints,
+          },
+        });
+      }
       break;
     case GameEventType.PlayerLeave:
       debug("Player left", event.payload);
       state.updateState({
         players: state.players.filter((p) => p !== event.payload),
+        phase: state.czar === event.payload ? GamePhase.NoCzar : state.phase,
       });
 
       if (state.czar === event.payload) {
-        debug("Czar left. TODO: Handle this");
-        // Problem is we don't have access to the "trigger" function here
-        // otherwise we could just call "startNewRound"
+        debug("Czar left - entering no czar phase");
       }
 
       break;
@@ -102,6 +122,13 @@ export function handleEvent(event: GameEvent, state: GameState) {
         phase: GamePhase.GameEnd,
       });
       break;
+
+    case GameEventType.InAGame:
+      debug("We tried joining during an active game. Updating data");
+      state.updateState({
+        hasExistingRound: true,
+        ...(event.payload as Partial<GameState>),
+      });
   }
 }
 

@@ -5,28 +5,24 @@ import { ordinate } from "@/lib/utils";
 import BottomBar from "../BottomBar";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import { getUserPlace } from "@/lib/game/utils";
 
 function GameEnd() {
   const { state } = useGame();
   const { width, height } = useWindowSize();
 
-  const place =
-    Object.entries(state.playerPoints)
-      .sort((a, b) => b[1] - a[1])
-      .findIndex(([id]) => id === state.ownId) + 1;
+  const place = getUserPlace(state.playerPoints, state.ownId!);
 
   return (
     <PageContainer className="flex justify-center items-center flex-col h-screen text-center">
       <h2 className="text-xl font-bold mb-3">
-        {place}
-        <span className="text-sm text-zinc-500">{ordinate(place)}</span>
+        {place === 0 ? "Maybe next time..." : ordinate(place)}
       </h2>
 
       <p className="text-zinc-500 font-medium mb-3">
-        You got {state.playerPoints[state.ownId!]}{" "}
+        You got {state.playerPoints[state.ownId!] ?? "no"}{" "}
         {state.playerPoints[state.ownId!] === 1 ? "point" : "points"} which puts
-        you in {place}
-        {ordinate(place)} place!
+        you in {place === 0 ? "last" : ordinate(place)} place!
       </p>
 
       <BottomBar />

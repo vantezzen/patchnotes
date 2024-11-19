@@ -32,9 +32,9 @@ function SelectingCards() {
       <h2 className="text-xl font-bold my-6">Your answer</h2>
 
       <div className="flex gap-3 flex-wrap">
-        {selectedCards.map((card) => (
+        {selectedCards.map((card, i) => (
           <WordSnippet
-            key={card}
+            key={card + i}
             allowRemove
             onClick={() => {
               setSelectedCards((cards) => cards.filter((c) => c !== card));

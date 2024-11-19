@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { useGameState } from "./gameState";
 import debugging from "debug";
-import { GameEvent, handleEvent } from "./gameEvent";
+import { GameEvent, handleEvent, sendEvent } from "./gameEvent";
 const debug = debugging("game:socket");
 
 const socketContext = createContext<Socket | null>(null);
@@ -62,7 +62,9 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
 
     const handler = (event: GameEvent) => {
       debug("Received game event", event);
-      handleEvent(event, gameState);
+      handleEvent(event, gameState, (event) => {
+        sendEvent(socket, event, gameState.gameId);
+      });
     };
 
     socket.on("gameEvent", handler);

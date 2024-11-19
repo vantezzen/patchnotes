@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getWordList } from "./utils";
 import debugging from "debug";
@@ -12,6 +13,7 @@ export enum GamePhase {
   WaitingForJudge,
   Judging,
 
+  NoCzar,
   Roundup,
   GameEnd,
 }
@@ -21,6 +23,7 @@ export type GameState = {
   phase: GamePhase;
   gameId: string;
   ownId?: string; // Socket ID
+  hasExistingRound?: boolean; // Will be set to true by others to inform us that a round is actively running
 
   // Round info
   czar: string | null; // Socket ID
