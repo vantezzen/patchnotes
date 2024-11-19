@@ -66,6 +66,15 @@ export function handleEvent(
         czar: event.payload as string,
         previousCzars: [...state.previousCzars, event.payload as string],
       });
+
+      const isOwnCzar = state.ownId === event.payload;
+      if (isOwnCzar && state.phase === GamePhase.SelectingCards) {
+        debug("We are the czar but tried to select cards. Fixing phase");
+        state.updateState({
+          phase: GamePhase.WaitingForCards,
+        });
+      }
+
       break;
     case GameEventType.RoundStart:
       debug(

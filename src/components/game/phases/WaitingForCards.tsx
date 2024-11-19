@@ -5,6 +5,10 @@ import React, { useEffect } from "react";
 import PhaseEndTimer from "../PhaseEndTimer";
 import BottomBar from "../BottomBar";
 import PageContainer from "../PageContainer";
+import PromptCard from "../PromptCard";
+
+import tieImage from "@/assets/cats/tie.png";
+import Image from "next/image";
 
 function WaitingForCards() {
   const { state, trigger } = useGame();
@@ -22,14 +26,20 @@ function WaitingForCards() {
 
   return (
     <PageContainer>
+      <Image
+        src={tieImage}
+        alt="Patch Notes"
+        width={150}
+        height={150}
+        className="mb-6 mx-auto"
+      />
+
       <h2 className="text-xl font-bold mb-3">You are the czar!</h2>
       <h2 className="text-zinc-500 font-medium mb-3">
         You will be choosing a winner based on this prompt:
       </h2>
 
-      <Card className="p-6">
-        <CardDescription>{state.prompt}</CardDescription>
-      </Card>
+      <PromptCard prompt={state.prompt!} />
 
       <h2 className="text-zinc-500 font-medium my-3">
         Waiting for players to play their cards...

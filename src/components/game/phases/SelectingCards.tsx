@@ -9,6 +9,7 @@ import BottomBar from "../BottomBar";
 import PageContainer from "../PageContainer";
 import { toast } from "sonner";
 import { getWordList } from "@/lib/game/utils";
+import PromptCard from "../PromptCard";
 
 function SelectingCards() {
   const { state, trigger } = useGame();
@@ -25,9 +26,7 @@ function SelectingCards() {
     <PageContainer>
       <h2 className="text-xl font-bold mb-3">Your prompt is:</h2>
 
-      <Card className="p-6">
-        <CardDescription>{state.prompt}</CardDescription>
-      </Card>
+      <PromptCard prompt={state.prompt!} />
 
       <h2 className="text-xl font-bold my-6">Your answer</h2>
 
@@ -53,7 +52,7 @@ function SelectingCards() {
 
       <h2 className="text-xl font-bold my-6">Your cards</h2>
 
-      <div className="flex gap-3 flex-wrap max-h-[300px] overflow-auto">
+      <div className="flex gap-3 flex-wrap max-h-[300px] overflow-y-auto overflow-x-hidden">
         {remainingCards.map((card, i) => (
           <WordSnippet
             key={card + i}

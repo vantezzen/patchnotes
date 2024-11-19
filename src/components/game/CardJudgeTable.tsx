@@ -4,6 +4,7 @@ import { Card, CardDescription } from "../ui/card";
 import WordSnippet from "./WordSnippet";
 import { Button } from "../ui/button";
 import { Crown } from "lucide-react";
+import PromptCard from "./PromptCard";
 
 function CardJudgeTable({
   onWinnerSelect = () => {},
@@ -15,9 +16,7 @@ function CardJudgeTable({
 
   return (
     <>
-      <Card className="p-6">
-        <CardDescription>{state.prompt}</CardDescription>
-      </Card>
+      <PromptCard prompt={state.prompt!} />
 
       <div className="grid gap-6 my-6">
         {Object.keys(state.playedCards).map((playerId) => (

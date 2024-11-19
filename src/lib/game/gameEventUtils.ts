@@ -12,5 +12,8 @@ export function startNewRound(
     payload: nextCzar,
   });
   gameState.czar = nextCzar; // Monkey-patch local state so we can start round directly
-  triggerEvent({ type: GameEventType.RoundStart, payload: getNewPrompt() });
+
+  setTimeout(() => {
+    triggerEvent({ type: GameEventType.RoundStart, payload: getNewPrompt() });
+  }, 100);
 }

@@ -1,12 +1,13 @@
 import React from "react";
-import { Fraunces } from "next/font/google";
+import { Balsamiq_Sans } from "next/font/google";
 
-const fraunces = Fraunces({ subsets: ["latin"] });
+const font = Balsamiq_Sans({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+});
 
 function Serif({ children }: { children: React.ReactNode }) {
-  return (
-    <span className={`${fraunces.className} font-fraunces`}>{children}</span>
-  );
+  return <span className={`${font.className} font-fraunces`}>{children}</span>;
 }
 
 export default Serif;

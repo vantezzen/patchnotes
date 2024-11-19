@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { randomBetween } from "@/lib/utils";
 import { X } from "lucide-react";
+import Serif from "../Serif";
 
 function WordSnippet({
   children,
@@ -22,7 +23,7 @@ function WordSnippet({
       }}
       onClick={onClick}
     >
-      {children}
+      <Serif>{children}</Serif>
 
       {allowRemove && <X size={14} />}
     </Button>

@@ -72,7 +72,7 @@ function Hero() {
         </div>
       </div>
 
-      <div className="mt-16 w-full h-[80vh] relative rounded-xl overflow-hidden">
+      <div className="mt-16 w-full h-[60vh] relative rounded-xl overflow-hidden">
         <Image
           src={waterImage}
           alt="Water"

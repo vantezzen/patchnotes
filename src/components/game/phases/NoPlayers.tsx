@@ -4,11 +4,22 @@ import useGame from "@/lib/game/useGame";
 import BottomBar from "../BottomBar";
 import Serif from "@/components/Serif";
 
+import lonelyImage from "@/assets/cats/lonely.png";
+import Image from "next/image";
+
 function NoPlayers() {
   const { state } = useGame();
 
   return (
     <PageContainer className="flex justify-center items-center flex-col h-screen text-center">
+      <Image
+        src={lonelyImage}
+        alt="Patch Notes"
+        width={150}
+        height={150}
+        className="mb-6"
+      />
+
       <h2 className="text-xl font-bold mb-3">1 is the loneliest number...</h2>
 
       <p className="text-zinc-500 font-medium mb-3">

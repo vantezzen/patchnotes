@@ -9,7 +9,7 @@ function BottomBar({ children = <div /> }: { children?: React.ReactNode }) {
   const place = getUserPlace(state.playerPoints, state.ownId!);
 
   return (
-    <div className="fixed bottom-0 w-full left-0 bg-zinc-900 text-white p-3 rounded-t-lg grid grid-cols-3 gap-3 justify-center items-center">
+    <div className="fixed bottom-0 w-full left-0 bg-zinc-900 text-white p-3 rounded-t-lg grid grid-cols-3 gap-3 justify-center items-center max-w-xl mx-auto right-0">
       <p className="font-medium text-left">
         <span className="font-bold">{ownPoints}</span>{" "}
         <span className="text-zinc-400">

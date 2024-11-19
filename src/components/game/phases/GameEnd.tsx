@@ -7,14 +7,35 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { getUserPlace } from "@/lib/game/utils";
 
+import angryImage from "@/assets/cats/angry.png";
+import happyImage from "@/assets/cats/strawberry.png";
+import blanketImage from "@/assets/cats/blanket.png";
+import Image from "next/image";
+import Serif from "@/components/Serif";
+
 function GameEnd() {
   const { state } = useGame();
   const { width, height } = useWindowSize();
 
   const place = getUserPlace(state.playerPoints, state.ownId!);
 
+  let image = happyImage;
+  if (place === 0) {
+    image = blanketImage;
+  } else if (place > 1) {
+    image = angryImage;
+  }
+
   return (
     <PageContainer className="flex justify-center items-center flex-col h-screen text-center">
+      <Image
+        src={image}
+        alt="Patch Notes"
+        width={150}
+        height={150}
+        className="mb-6"
+      />
+
       <h2 className="text-xl font-bold mb-3">
         {place === 0 ? "Maybe next time..." : ordinate(place)}
       </h2>
