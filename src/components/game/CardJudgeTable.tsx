@@ -1,6 +1,5 @@
 import useGame from "@/lib/game/useGame";
 import React from "react";
-import { Card, CardDescription } from "../ui/card";
 import WordSnippet from "./WordSnippet";
 import { Button } from "../ui/button";
 import { Crown } from "lucide-react";

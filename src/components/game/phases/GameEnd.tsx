@@ -11,7 +11,6 @@ import angryImage from "@/assets/cats/angry.png";
 import happyImage from "@/assets/cats/strawberry.png";
 import blanketImage from "@/assets/cats/blanket.png";
 import Image from "next/image";
-import Serif from "@/components/Serif";
 
 function GameEnd() {
   const { state } = useGame();

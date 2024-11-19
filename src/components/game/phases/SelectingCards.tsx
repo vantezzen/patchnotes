@@ -3,7 +3,6 @@ import { GameEventType } from "@/lib/game/gameEvent";
 import useGame from "@/lib/game/useGame";
 import React from "react";
 import WordSnippet from "../WordSnippet";
-import { Card, CardDescription } from "@/components/ui/card";
 import PhaseEndTimer from "../PhaseEndTimer";
 import BottomBar from "../BottomBar";
 import PageContainer from "../PageContainer";

@@ -1,4 +1,3 @@
-import { Card, CardDescription } from "@/components/ui/card";
 import { GameEventType } from "@/lib/game/gameEvent";
 import useGame from "@/lib/game/useGame";
 import React, { useEffect } from "react";
