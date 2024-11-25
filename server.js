@@ -24,14 +24,6 @@ app.prepare().then(() => {
         games[gameId] = { players: [] };
       }
 
-      // Inform the player about the current players
-      games[gameId].players.forEach((player) => {
-        socket.emit("gameEvent", {
-          type: "playerJoin",
-          payload: player,
-        });
-      });
-
       games[gameId].players.push(socket.id);
       players[socket.id] = { gameId };
 

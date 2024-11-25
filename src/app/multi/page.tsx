@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RotateCcw } from "lucide-react";
 import React from "react";
 import { useUpdate } from "react-use";
 
@@ -30,15 +31,31 @@ function MultiPage() {
         <Button onClick={() => setLoadStart(Date.now())}>Load</Button>
       </div>
 
-      <div className="flex gap-1 h-[90vh]">
+      <div className="flex gap-1 h-[800px]">
         {Array.from({ length: amount }).map((_, i) => (
-          <div
-            key={i}
-            className="flex items-center justify-center h-full bg-card rounded-lg w-full p-6"
-          >
-            {loadStart + DELAY_BETWEEN_LOAD_MS * i < Date.now() && (
-              <iframe src="/game/cf3g" className="w-full h-full" />
-            )}
+          <div className="flex flex-col bg-gray-100 w-full" key={i}>
+            <div className="bg-white shadow-md p-2">
+              <div className="flex items-center space-x-2">
+                <Button variant="ghost" size="icon" aria-label="Reload page">
+                  <RotateCcw className="h-4 w-4" />
+                </Button>
+                <Input
+                  className="flex-grow"
+                  type="text"
+                  placeholder="Enter URL"
+                  value="patchnotes.vantezzen.io/game/CF3G"
+                  readOnly
+                />
+              </div>
+            </div>
+            <div
+              className="flex-grow bg-white m-2 rounded-md shadow-md"
+              aria-label="Web page content"
+            >
+              {loadStart + DELAY_BETWEEN_LOAD_MS * i < Date.now() && (
+                <iframe src="/game/cf3g" className="w-full h-full" />
+              )}
+            </div>
           </div>
         ))}
       </div>

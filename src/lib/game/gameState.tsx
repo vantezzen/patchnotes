@@ -24,6 +24,7 @@ export type GameState = {
   gameId: string;
   ownId?: string; // Socket ID
   hasExistingRound?: boolean; // Will be set to true by others to inform us that a round is actively running
+  isFullyJoined?: boolean; // Will be set to true to make sure we don't apply information for newly joined players
 
   // Round info
   czar: string | null; // Socket ID

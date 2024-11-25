@@ -7,6 +7,7 @@ const debug = debugging("gameEvent");
 export enum GameEventType {
   PlayerJoin = "playerJoin",
   PlayerLeave = "playerLeave",
+  GameSync = "gameSync",
 
   SelectCzar = "selectCzar",
 
@@ -34,6 +35,18 @@ export function handleEvent(
       debug("Player joined", event.payload);
       state.updateState({
         players: [...state.players, event.payload as string],
+        isFullyJoined: true,
+      });
+
+      sendEvent({
+        type: GameEventType.GameSync,
+        payload: {
+          players: [state.ownId, ...state.players],
+          phase: state.phase,
+          czar: state.czar,
+          playerPoints: state.playerPoints,
+          previousCzars: state.previousCzars,
+        },
       });
 
       if (isInAGame(state.phase)) {
@@ -60,6 +73,24 @@ export function handleEvent(
       }
 
       break;
+
+    case GameEventType.GameSync:
+      debug("Game sync", event.payload);
+
+      if (state.isFullyJoined) {
+        debug("Ignoring game sync as we are fully joined");
+        return;
+      }
+
+      state.updateState({
+        ...(event.payload as GameState),
+        players: (event.payload as GameState).players.filter(
+          (p) => p !== state.ownId
+        ),
+        isFullyJoined: true,
+      });
+      break;
+
     case GameEventType.SelectCzar:
       debug("Selecting czar", event.payload);
       state.updateState({
@@ -89,6 +120,7 @@ export function handleEvent(
             : GamePhase.SelectingCards,
         playedCards: {},
         prompt: event.payload as string,
+        isFullyJoined: true,
       });
       break;
     case GameEventType.StartJudging:
@@ -133,11 +165,17 @@ export function handleEvent(
       break;
 
     case GameEventType.InAGame:
+      if (state.isFullyJoined) {
+        debug("Ignoring in a game event as we are fully joined");
+        return;
+      }
+
       debug("We tried joining during an active game. Updating data");
       state.updateState({
         hasExistingRound: true,
         ...(event.payload as Partial<GameState>),
       });
+      break;
   }
 }
 
