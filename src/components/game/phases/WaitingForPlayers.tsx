@@ -9,6 +9,7 @@ import QRCode from "react-qr-code";
 import Image from "next/image";
 
 import headerImage from "@/assets/cats/leaf.png";
+import { trackEvent } from "@/lib/analytics";
 
 function WaitingForPlayers() {
   const { state, trigger } = useGame();
@@ -51,6 +52,7 @@ function WaitingForPlayers() {
       <Button
         className="mt-3 text-lg p-8"
         onClick={() => {
+          trackEvent("start_game");
           startNewRound(state, trigger);
         }}
         disabled={Object.keys(state.players).length < 1}

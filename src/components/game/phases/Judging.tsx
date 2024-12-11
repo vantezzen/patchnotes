@@ -4,6 +4,7 @@ import React from "react";
 import BottomBar from "../BottomBar";
 import PageContainer from "../PageContainer";
 import CardJudgeTable from "../CardJudgeTable";
+import { trackEvent } from "@/lib/analytics";
 
 function Judging() {
   const { trigger, state } = useGame();
@@ -17,6 +18,7 @@ function Judging() {
 
       <CardJudgeTable
         onWinnerSelect={(playerId) => {
+          trackEvent("round_winner");
           const updatedPoints = {
             ...state.playerPoints,
             [playerId]: (state.playerPoints[playerId] || 0) + 1,

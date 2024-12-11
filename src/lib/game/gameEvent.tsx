@@ -2,6 +2,7 @@ import { Socket } from "socket.io-client";
 import { GamePhase, GameState } from "./gameState";
 import debugging from "debug";
 import { isInAGame } from "./utils";
+import { trackEvent } from "../analytics";
 const debug = debugging("gameEvent");
 
 export enum GameEventType {
@@ -93,6 +94,7 @@ export function handleEvent(
 
     case GameEventType.SelectCzar:
       debug("Selecting czar", event.payload);
+      trackEvent("select_czar");
       state.updateState({
         czar: event.payload as string,
         previousCzars: [...state.previousCzars, event.payload as string],
@@ -144,6 +146,7 @@ export function handleEvent(
       break;
     case GameEventType.RoundEnd:
       debug("Round end", event.payload);
+      trackEvent("round_end");
 
       const { winnerId, playerPoints } = event.payload as {
         winnerId: string;
@@ -159,6 +162,7 @@ export function handleEvent(
 
     case GameEventType.GameEnd:
       debug("Game end", event.payload);
+      trackEvent("game_end");
       state.updateState({
         phase: GamePhase.GameEnd,
       });
