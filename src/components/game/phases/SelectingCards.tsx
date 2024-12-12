@@ -59,6 +59,10 @@ function SelectingCards() {
             allowRemove
             onClick={() => {
               setSelectedCards((cards) => cards.filter((c) => c !== card));
+
+              if (isDemoGame) {
+                setHasSelectedDemoCards(false);
+              }
             }}
           >
             {card}
