@@ -8,9 +8,17 @@ import PromptCard from "../PromptCard";
 
 import tieImage from "@/assets/cats/tie.png";
 import Image from "next/image";
+import { useIsDemoGame } from "@/lib/game/useIsDemoGame";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 function WaitingForCards() {
   const { state, trigger } = useGame();
+
+  const isDemoGame = useIsDemoGame();
+  const [demoPrompt, setDemoPrompt] = React.useState("");
+  const [hasSelectedDemoPrompt, setHasSelectedDemoPrompt] =
+    React.useState(false);
 
   useEffect(() => {
     if (Object.keys(state.playedCards).length === state.players.length) {
@@ -39,6 +47,31 @@ function WaitingForCards() {
       </h2>
 
       <PromptCard prompt={state.prompt!} />
+
+      {isDemoGame && !hasSelectedDemoPrompt && (
+        <div className="flex gap-3">
+          <Input
+            type="text"
+            placeholder="Enter your prompt here"
+            className="w-full"
+            onChange={(e) => setDemoPrompt(e.target.value)}
+            value={demoPrompt}
+          />
+
+          <Button
+            onClick={() => {
+              setHasSelectedDemoPrompt(true);
+
+              trigger({
+                type: GameEventType.RoundStart,
+                payload: demoPrompt,
+              });
+            }}
+          >
+            OK
+          </Button>
+        </div>
+      )}
 
       <h2 className="text-zinc-500 font-medium my-3">
         Waiting for players to play their cards...

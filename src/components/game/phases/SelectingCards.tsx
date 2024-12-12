@@ -9,11 +9,16 @@ import PageContainer from "../PageContainer";
 import { toast } from "sonner";
 import { getWordList } from "@/lib/game/utils";
 import PromptCard from "../PromptCard";
+import { useIsDemoGame } from "@/lib/game/useIsDemoGame";
+import { Input } from "@/components/ui/input";
 
 function SelectingCards() {
   const { state, trigger } = useGame();
   const [selectedCards, setSelectedCards] = React.useState<string[]>([]);
   const [isConfirmed, setIsConfirmed] = React.useState(false);
+
+  const isDemoGame = useIsDemoGame();
+  const [hasSelectedDemoCards, setHasSelectedDemoCards] = React.useState(false);
 
   let remainingCards = [...state.ownCards];
   for (const card of selectedCards) {
@@ -28,6 +33,24 @@ function SelectingCards() {
       <PromptCard prompt={state.prompt!} />
 
       <h2 className="text-xl font-bold my-6">Your answer</h2>
+
+      {isDemoGame && !hasSelectedDemoCards && (
+        <div className="flex gap-3">
+          <Input
+            type="text"
+            placeholder="Enter your answer here"
+            className="w-full"
+            onChange={(e) => setSelectedCards(e.target.value.split(" "))}
+          />
+          <Button
+            onClick={() => {
+              setHasSelectedDemoCards(true);
+            }}
+          >
+            OK
+          </Button>
+        </div>
+      )}
 
       <div className="flex gap-3 flex-wrap">
         {selectedCards.map((card, i) => (
