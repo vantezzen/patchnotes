@@ -4,6 +4,7 @@ import WordSnippet from "./WordSnippet";
 import { Button } from "../ui/button";
 import { Crown } from "lucide-react";
 import PromptCard from "./PromptCard";
+import { motion } from "motion/react";
 
 function CardJudgeTable({
   onWinnerSelect = () => {},
@@ -18,10 +19,13 @@ function CardJudgeTable({
       <PromptCard prompt={state.prompt!} />
 
       <div className="grid gap-6 my-6">
-        {Object.keys(state.playedCards).map((playerId) => (
-          <div
+        {Object.keys(state.playedCards).map((playerId, index) => (
+          <motion.div
             key={playerId}
             className="flex justify-between border-b border-zinc-200 py-6"
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.2 }}
           >
             <div className="flex gap-3 flex-wrap">
               {state.playedCards[playerId].map((card, i) => (
@@ -38,7 +42,7 @@ function CardJudgeTable({
                 <Crown size={24} />
               </Button>
             )}
-          </div>
+          </motion.div>
         ))}
       </div>
     </>

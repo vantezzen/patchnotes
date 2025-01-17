@@ -20,6 +20,8 @@ function SelectingCards() {
   const isDemoGame = useIsDemoGame();
   const [hasSelectedDemoCards, setHasSelectedDemoCards] = React.useState(false);
 
+  const [promptHeight, setPromptHeight] = React.useState(0);
+
   let remainingCards = [...state.ownCards];
   for (const card of selectedCards) {
     const firstItem = remainingCards.findIndex((c) => c === card);
@@ -28,11 +30,21 @@ function SelectingCards() {
 
   return (
     <PageContainer>
-      <h2 className="text-xl font-bold mb-3">Your prompt is:</h2>
+      <div
+        className="fixed top-0 left-0 w-full bg-brand-50 bg-opacity-50 p-6 z-10"
+        ref={(el) => {
+          if (!el) return;
+          setPromptHeight(el.getBoundingClientRect().height - 40);
+        }}
+      >
+        <PromptCard prompt={state.prompt!} />
+      </div>
 
-      <PromptCard prompt={state.prompt!} />
-
-      <h2 className="text-xl font-bold my-6">Your answer</h2>
+      <div
+        style={{
+          height: promptHeight,
+        }}
+      />
 
       {isDemoGame && !hasSelectedDemoCards && (
         <div className="flex gap-3">
@@ -70,6 +82,40 @@ function SelectingCards() {
         ))}
       </div>
 
+      {selectedCards.length > 0 && (
+        <Button
+          onClick={() => {
+            trigger({
+              type: GameEventType.PlayerCards,
+              payload: {
+                id: state.ownId,
+                cards: selectedCards,
+              },
+            });
+            setIsConfirmed(true);
+
+            toast(
+              "Your cards have been submitted! Waiting for other players..."
+            );
+
+            let ownCards = remainingCards;
+            if (ownCards.length < 40) {
+              ownCards = getWordList();
+              toast(
+                "Your cards are running low - you have received new cards!"
+              );
+            }
+            state.updateState({
+              ownCards,
+            });
+          }}
+          disabled={isConfirmed || selectedCards.length === 0}
+          className="w-full mt-6"
+        >
+          Confirm
+        </Button>
+      )}
+
       {selectedCards.length === 0 && (
         <p className="text-zinc-400 font-medium mb-3 text-sm">
           Click on the words below to select them as your answer
@@ -90,34 +136,6 @@ function SelectingCards() {
           </WordSnippet>
         ))}
       </div>
-
-      <Button
-        onClick={() => {
-          trigger({
-            type: GameEventType.PlayerCards,
-            payload: {
-              id: state.ownId,
-              cards: selectedCards,
-            },
-          });
-          setIsConfirmed(true);
-
-          toast("Your cards have been submitted! Waiting for other players...");
-
-          let ownCards = remainingCards;
-          if (ownCards.length < 40) {
-            ownCards = getWordList();
-            toast("Your cards are running low - you have received new cards!");
-          }
-          state.updateState({
-            ownCards,
-          });
-        }}
-        disabled={isConfirmed || selectedCards.length === 0}
-        className="w-full mt-6"
-      >
-        Confirm
-      </Button>
 
       <BottomBar>
         <PhaseEndTimer />

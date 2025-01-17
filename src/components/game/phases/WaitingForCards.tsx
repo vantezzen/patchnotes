@@ -46,7 +46,9 @@ function WaitingForCards() {
         You will be choosing a winner based on this prompt:
       </h2>
 
-      <PromptCard prompt={state.prompt!} />
+      <div className="my-12">
+        <PromptCard prompt={state.prompt!} />
+      </div>
 
       {isDemoGame && !hasSelectedDemoPrompt && (
         <div className="flex gap-3">
