@@ -3,7 +3,7 @@ import Serif from "../Serif";
 import { Button } from "../ui/button";
 import { createRandomLobbyCode } from "@/lib/game/utils";
 import Image, { StaticImageData } from "next/image";
-
+import WordSnippet from "../game/WordSnippet";
 
 export default function HowToPlay() {
   return (
@@ -73,7 +73,7 @@ function Step({
   image?: StaticImageData;
 }) {
   return (
-    <div className="flex gap-8 items-center">
+    <div className="flex gap-8 items-center max-w-xl mx-auto">
       <div className="w-16 h-16 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0">
         <Serif>
           <span className="text-2xl font-bold">{number}</span>
@@ -82,9 +82,11 @@ function Step({
 
       <div className="flex-1">
         <Serif>
-          <h3 className="text-2xl font-bold mb-2">{title}</h3>
+          <WordSnippet>
+            <h3 className="text-xl font-bold m-2">{title}</h3>
+          </WordSnippet>
         </Serif>
-        <p className="text-zinc-600">{description}</p>
+        <p className="text-zinc-600 mt-6">{description}</p>
       </div>
 
       {image && (
